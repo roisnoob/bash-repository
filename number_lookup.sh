@@ -1,5 +1,5 @@
 #!/bin/bash
-#rois ganteng
+#Powered by xLit
 cyan='\033[0;36m'
 green='\e[92m'
 red='\033[0;31m'
@@ -10,18 +10,24 @@ function ngecek() {
   check=`curl -s -X GET \
    --header "Content-Type: application/json" \
    --header "Accept: application/json" \
-   --header "Authorization: Bearer KEY0181842FC47E171B85AF3891804A9093_vn8shTx5d6fIHWKW6R9IC7" \
-   "https://api.telnyx.com/v2/number_lookup/$1?type=carrier&type=caller-name" --compressed | jq .data.portability.spid_carrier_name`
+   --header "Authorization: Bearer KEY0181A421398B13602AE34B6C694C2B0C_9CJlytbbA5aIbHD0Q55rTc" \
+   "https://api.telnyx.com/v2/number_lookup/1$1?type=carrier&type=caller-name" --compressed | jq .data.portability.spid_carrier_name`
         if [[ "$check" == "" ]] || [[ "$check" == "null" ]]; then
-                echo "$1 => GA BENER ANJING ! = $check"
+                echo "$1 => GA BENER ANJING!  => $check"
+        elif [[ "$check" =~ "T-MOBILE" ]]; then
+                echo "$1 => Carrier => $check"
+                echo "$1 => Carrier => $check" >> TMOBILE.txt
+        elif [[ "$check" =~ "VERIZON" ]]; then
+                echo "$1 => Carrier => $check"
+                echo "$1 => Carrier => $check" >> Verizon.txt
         else
                 echo "$1 => Carrier => $check"
                 echo "$1 => Carrier => $check" >> carrier_lookup.txt
         fi
 }
-read -p "Your list : " email
-persend="50"
-delay="2"
+read -p "Your Email : " email
+persend="30"
+delay=""
 hitung=0
  
 IFS=$'\r\n' GLOBIGNORE='*' command eval 'list=($(cat $email))'
